@@ -1,23 +1,48 @@
 public class main {
     public static void main(String[] args) {
 
-        Room room1 = new Room(2, 100.0);
-        System.out.println("Room available: " + room1.isAvailable());
-        room1.checkIn();
-        System.out.println("Room available after check-in: " + room1.isAvailable());
-        room1.cleanRoom();
-        room1.checkOut();
-        System.out.println("Room available after check-out: " + room1.isAvailable());
+        System.out.println("=== ROOM DEMO ===");
+        Room room101 = new Room(2, 120.0, false, false);
 
-        Employee emp = new Employee("E007", "Andrew", "Front Desk", 20.0);
-        emp.punchTimeCard(9.0);  // Punch in at 9:00
-        emp.punchTimeCard(17.0); // Punch out at 17:00
-        System.out.println("Employee: " + emp.getName());
+        room101.checkIn();
+        room101.checkOut();
+        room101.cleanRoom();
+        room101.checkIn();
+
+
+        System.out.println("\n=== EMPLOYEE DEMO ===");
+        Employee emp = new Employee("E001", "Alice", "Housekeeping", 18.5, 0);
+
+        emp.punchIn(10.0);
+        emp.punchOut(12.5);
+
+        emp.punchIn();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        emp.punchOut();
+
         System.out.println("Regular hours: " + emp.getRegularHours());
         System.out.println("Overtime hours: " + emp.getOvertimeHours());
         System.out.println("Total pay: $" + emp.getTotalPay());
 
-        Reservation res = new Reservation("king", 3, true);
-        System.out.println("Reservation total price: $" + res.getReservationTotal());
+        System.out.println("\n=== HOTEL DEMO ===");
+        Hotel myHotel = new Hotel("Ocean View", 5, 10);
+
+        System.out.println("Available Suites: " + myHotel.getAvailableSuites());
+        System.out.println("Available Rooms: " + myHotel.getAvailableRooms());
+
+        boolean booked1 = myHotel.bookRoom(3, true);  // Забронировать 3 люкса
+        boolean booked2 = myHotel.bookRoom(5, false); // Забронировать 5 обычных
+
+        System.out.println("Booking suites success: " + booked1);
+        System.out.println("Booking rooms success: " + booked2);
+        System.out.println("Available Suites: " + myHotel.getAvailableSuites());
+        System.out.println("Available Rooms: " + myHotel.getAvailableRooms());
+
+        boolean overbook = myHotel.bookRoom(10, false);
+        System.out.println("Overbooking attempt: " + overbook);
     }
 }

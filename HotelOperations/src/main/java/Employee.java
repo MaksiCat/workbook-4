@@ -1,17 +1,19 @@
+import java.time.LocalDateTime;
+
 public class Employee {
     private String employeeId;
     private String name;
     private String department;
     private double payRate;
     private double hoursWorked;
-    private double punchInTime;
+    private Double punchInTime; // Nullable
 
-    public Employee(String employeeId, String name, String department, double payRate) {
+    public Employee(String employeeId, String name, String department, double payRate, double hoursWorked) {
         this.employeeId = employeeId;
         this.name = name;
         this.department = department;
         this.payRate = payRate;
-        this.hoursWorked = 0;
+        this.hoursWorked = hoursWorked;
     }
 
     public String getName() {
@@ -30,15 +32,38 @@ public class Employee {
         return getRegularHours() * payRate + getOvertimeHours() * payRate * 1.5;
     }
 
-    public void punchTimeCard(double time) {
-        if (punchInTime == 0) {
-            punchInTime = time;
-            System.out.println(name + " punched in at " + time);
-        } else {
+    public void punchIn(double time) {
+        punchInTime = time;
+        System.out.println(name + " punched in at " + time);
+    }
+
+    public void punchOut(double time) {
+        if (punchInTime != null) {
             double worked = time - punchInTime;
             hoursWorked += worked;
             System.out.println(name + " punched out at " + time + ". Worked " + worked + " hours.");
-            punchInTime = 0;
+            punchInTime = null;
+        } else {
+            System.out.println("Punch in first!");
+        }
+    }
+
+    public void punchIn() {
+        LocalDateTime now = LocalDateTime.now();
+        punchInTime = now.getHour() + now.getMinute() / 60.0;
+        System.out.println(name + " punched in at " + punchInTime);
+    }
+
+    public void punchOut() {
+        if (punchInTime != null) {
+            LocalDateTime now = LocalDateTime.now();
+            double currentTime = now.getHour() + now.getMinute() / 60.0;
+            double worked = currentTime - punchInTime;
+            hoursWorked += worked;
+            System.out.println(name + " punched out at " + currentTime + ". Worked " + worked + " hours.");
+            punchInTime = null;
+        } else {
+            System.out.println("You must punch in first!");
         }
     }
 }

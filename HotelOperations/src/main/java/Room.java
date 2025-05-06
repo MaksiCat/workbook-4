@@ -4,11 +4,11 @@ public class Room {
     private boolean isOccupied;
     private boolean isDirty;
 
-    public Room(int numberOfBeds, double price) {
+    public Room(int numberOfBeds, double price, boolean isOccupied, boolean isDirty) {
         this.numberOfBeds = numberOfBeds;
         this.price = price;
-        this.isOccupied = false;
-        this.isDirty = false;
+        this.isOccupied = isOccupied;
+        this.isDirty = isDirty;
     }
 
     public int getNumberOfBeds() {
